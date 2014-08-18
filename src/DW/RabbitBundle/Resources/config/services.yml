@@ -1,0 +1,7 @@
+parameters:
+#    dw_rabbit.example.class: DW\RabbitBundle\Example
+
+services:
+#    dw_rabbit.example:
+#        class: %dw_rabbit.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]

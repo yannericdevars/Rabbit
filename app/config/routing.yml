@@ -1,0 +1,4 @@
+dw_rabbit:
+    resource: "@DWRabbitBundle/Resources/config/routing.yml"
+    prefix:   /
+

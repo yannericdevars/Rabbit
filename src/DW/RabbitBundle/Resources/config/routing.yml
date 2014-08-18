@@ -1,0 +1,3 @@
+dw_rabbit_homepage:
+    path:     /hello/{name}
+    defaults: { _controller: DWRabbitBundle:Default:index }
