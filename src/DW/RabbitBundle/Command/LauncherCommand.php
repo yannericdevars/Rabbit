@@ -19,19 +19,33 @@ class LauncherCommand extends ContainerAwareCommand
             ->setName('rabbit:launcher')
             ->setDescription('Lancer une commande')
             ->addArgument('name', InputArgument::REQUIRED, 'Qui voulez vous saluer ??')
-            ->addArgument('time', InputArgument::REQUIRED, 'pendant combien de temps ???');
+            ->addArgument('time', InputArgument::REQUIRED, 'pendant combien de temps ???')
+            ->addArgument('occ', InputArgument::OPTIONAL, "Combien d'occurences ???");
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $name = $input->getArgument('name');
         $time = $input->getArgument('time');
+        $occ = $input->getArgument('occ');
 
+        $compt = 1;
+
+        for ($i=0; $i<$occ; $i++) {
+            $this->process($name."".$compt, $time);
+
+            $compt ++;
+        }
+
+    }
+
+    private function process($name, $time)
+    {
         $connection = new AMQPConnection(
-            $this->getContainer()->getParameter('rabbitServer'),
-            $this->getContainer()->getParameter('rabbitPort'),
-            $this->getContainer()->getParameter('rabbitUser'),
-            $this->getContainer()->getParameter('rabbitPass'));
+        $this->getContainer()->getParameter('rabbitServer'),
+        $this->getContainer()->getParameter('rabbitPort'),
+        $this->getContainer()->getParameter('rabbitUser'),
+        $this->getContainer()->getParameter('rabbitPass'));
 
         $channel = $connection->channel();
 
@@ -50,8 +64,5 @@ class LauncherCommand extends ContainerAwareCommand
 
         $channel->close();
         $connection->close();
-
-
-
     }
 }
